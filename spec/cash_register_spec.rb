@@ -75,16 +75,16 @@ describe 'CashRegister' do
   end
 
   describe '#void_last_transaction' do
-    it 'subtracts the last item from the total' do
-      cash_register.add_item("apple", 0.99)
-      cash_register.add_item("tomato", 1.76)
-      cash_register.void_last_transaction
-      expect(cash_register.total).to eq(0.99)
-    end
-
-    it 'returns the total to 0.0 if all items have been removed' do
-      cash_register.add_item("tomato", 1.76, 2)
-      expect{cash_register.void_last_transaction}.to change{cash_register.total}.from(3.52).to(0.0)
+    it 'subtracts the last transaction from the total' do	    it 'subtracts a single quantity transaction from the total' do
+      cash_register.add_item("tomato", 1.76)	      cash_register.add_item("tomato", 1.76)
+      expect{cash_register.void_last_transaction}.to change{cash_register.total}.from(1.76).to(0.0)	      expect{cash_register.void_last_transaction}.to change{cash_register.total}.from(1.76).to(0.0)
+    end	    end
+  end	  end
+end 	
+  describe '#void_last_transaction' do
+    it 'subtracts a multiple quantity transaction from the total' do
+      cash_register.add_item("tomato", 1.76, 3)
+      expect{cash_register.void_last_transaction}.to change{cash_register.total}.from(5.28).to(0.0) && change{cash_register.items}.from(["tomato", "tomato", "tomato"]).to([])
     end
   end
 end

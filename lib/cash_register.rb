@@ -33,11 +33,10 @@ class CashRegister
   end
 
   def void_last_transaction
-    if @items > 0
-    @total -= @price
-  else
-    @total = 0.0
-  end
+    self.total -= self.last_transaction[1] * self.last_transaction[2]
+    self.last_transaction[2].times do
+      self.items.delete_at(self.items.index(self.last_transaction[0]) || self.items.count)
+    end
   end
 
 end
